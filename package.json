@@ -1,0 +1,22 @@
+{
+  "name": "apartment-configurator",
+  "version": "3.0.0",
+  "main": "index.html",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Move fast and break things, I guess.\" && exit 1",
+    "start:dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
+}

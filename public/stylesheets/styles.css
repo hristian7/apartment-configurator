@@ -1,0 +1,381 @@
+* {
+    font-family: 'Lato', sans-serif;
+}
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    margin: 0px;
+}
+
+#cursor {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+#main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+}
+
+.menu {
+    flex: 0 0 auto;
+    position: relative;
+    width: 300px;
+    height: 100%;
+    background-color: #E4E4E4;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    transition: all .3s ease;
+
+    border-right: 1px solid #a0a0a0;
+}
+
+.menu-closed {
+    width: 0px;
+}
+
+#menu_toggle {
+    width: 20px;
+    height: 80px;
+    z-index: 1;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+
+    cursor: pointer;
+}
+
+.menu-toggle-open {
+    background: center / contain no-repeat url('../assets/menu-close.png');
+}
+
+.menu-toggle-open:hover {
+    background: center / contain no-repeat url('../assets/menu-close-blue.png');
+}
+
+.menu-toggle-closed {
+    background: center / contain no-repeat url('../assets/menu-open.png');
+}
+
+.menu-toggle-closed:hover {
+    background: center / contain no-repeat url('../assets/menu-open-blue.png');
+}
+
+#main > a-scene {
+    flex: auto;
+    height: 100%;
+}
+
+#control-buttons {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+
+.control-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,1);
+
+    margin-right: 10px;
+
+    cursor: pointer;
+
+    z-index: 1;
+}
+
+#control-wall-opacity {
+    background-image: url('../assets/walls-transparent.svg');
+}
+
+#control-wall-opacity:hover {
+    background-image: url('../assets/walls-transparent-blue.svg');
+}
+
+#control-perspective {
+    background-image: url('../assets/icon-floorplan-black.svg');
+}
+
+#control-perspective:hover {
+    background-image: url('../assets/icon-floorplan-blue.svg');
+}
+
+#control-rotate {
+    background-image: url('../assets/icon-rotate.svg');
+}
+
+#control-rotate:hover {
+    background-image: url('../assets/icon-rotate-blue.svg');
+}
+
+h1 {
+    font: 600 2rem Lato, sans-serif;
+    text-align: center;
+    padding: 8px;
+}
+
+#header {
+    font-size: 120px;
+    pointer-events: none;
+    position: absolute;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #a0f;
+    opacity: 0.3;
+    left: 20px;
+}
+@media screen and (max-width: 768px) {
+    #header {
+        display: none;
+    }
+}
+
+label {
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    vertical-align: top;
+}
+
+#scene-switch-btn {
+    flex: initial;
+    color: dimgrey;
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 8px;
+    background-color: white;
+    border-color: darkgrey;
+    border-radius: 0px 5px 5px 0px;
+}
+/*#scene-switch-btn > label {
+    margin: auto;
+}*/
+
+#scene-id-input {
+    flex: auto;
+    margin: 0px;
+    border-color: darkgrey;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#scene-id-input:focus {
+    border-color: darkgrey;
+}
+
+#scene-switch-btn:hover, #camera-rotate-btn:hover {
+    color: white;
+    background-color: darkgrey;
+}
+
+.search-header {
+    /*padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 30px;*/
+    display:flex;
+    flex-direction: row;
+    padding: 4px 8px;
+}
+
+.dropdown {
+    position: relative;
+
+    border-bottom: 1px solid #a0a0a0;
+    border-top: 1px solid #a0a0a0;
+
+    transition: all .3s ease;
+}
+
+.dropdown ~ .dropdown {
+    border-top: none;
+}
+
+.dropdown-toggle {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='45' version='1.1'><polyline fill='rgb(50,55,60)' points='0,10 40,10 20,45'/></svg>") 0 0/11px auto no-repeat;
+    width: 11px;
+    height: 11px;
+
+    transform-origin: center;
+    transition: all .3s ease;
+
+    opacity: 0.4;
+}
+
+.dropdown-toggle.open {
+    transform: rotate(180deg);
+}
+
+.dropdown-toggle:hover {
+    opacity: 1;
+}
+
+.dropdown-label {
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    padding: 8px;
+    opacity: 0;
+    height: 0px;
+
+    transition: all .3s ease;
+}
+
+.dropdown-content.open {
+    opacity: 1;
+    height: auto;
+}
+
+.image-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.option {
+    margin: 8px;
+}
+
+.option-image {
+    margin: auto;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    display: block;
+
+    border: 1px solid #a0a0a0;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+}
+
+.option-image:hover {
+    border: 3px solid #dff3f9;
+}
+
+.option.selected > .option-image {
+    border: 3px solid #2CAED9;
+}
+
+.option-label {
+    color: #555;
+    margin-top: 8px;
+    font: 300 12px Lato;
+    text-align: center;
+}
+
+.option.selected > .option-label {
+    color: #2CAED9;
+}
+
+.a-enter-vr-button {
+    position:fixed;
+    height: 40px;
+    margin:0px;
+    padding: 0px;
+    bottom:15px;
+    right: 30px;
+}
+
+.rotate-container {
+    padding-top: 150px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 30px;
+}
+
+#scene-rotate-container {
+    pointer-events: none;
+    position:fixed;
+    width:100%;
+    height:200px;
+    padding:5px;
+    bottom:0px;
+}
+
+#camera-rotate-btn {
+    pointer-events: all;
+    display: inline-block;
+    margin: 0px;
+    height: 40px;
+    color: dimgrey;
+    background-color: white;
+    border-color: darkgrey;
+}
+
+#camera-rotate-btn > img {
+    height: 80%;
+    vertical-align: middle;
+    padding-right: 5px;
+    margin-left: 15%;
+    bottom: 5px;
+}
+
+#logo-container {
+    pointer-events: all;
+    position: absolute;
+    right: 110px;
+    bottom: 9px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#insideLogo {
+    width: auto;
+    height: 40px;
+}
+
+
+#loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #11cc57;
+    z-index: 99999;
+
+    transition: all 0.5s ease;
+}
+
+.loader-hide {
+    opacity: 0;
+}
+
+.loader-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.loader-inner > div {
+    flex: 50px 0 1;
+    height: 50px;
+}

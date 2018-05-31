@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>apartments generator</title>
+    <meta name="description" content="3d.io interior scene with dynamic lighting and realtime shadows">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <!-- aframe libs -->
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <!-- gltf exporter -->
+    <script src="https://rawgit.com/fernandojsg/three.js/8c413535ef718117683a6f0936b2dd9d45ff97e2/examples/js/exporters/GLTFExporter.js"></script>
+    <!-- animation component -->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.5/dist/aframe-animation-component.min.js"></script>
+    <!-- 3dio lib ( feature branch for parametric picture / curtain objects ) -->
+    <script src="https://rawgit.com/archilogic-com/3dio-js/f3bc14abe8bda45f3d76b73bc9f71c1537a73d90/build/3dio.js"></script>
+    <script src="lib/cursor.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/ConnorAtherton/loaders.css/master/loaders.min.css"></head>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+</head>
+<body>
+
+<div id="loader">
+    <div class="loader-inner square-spin">
+        <div></div>
+    </div>  
+</div>
+
+<script type="text/javascript">
+    function randomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        document.querySelector('body').style.background = color;
+        document.querySelector('#loader').style.background = color; 
+    }
+    randomColor();
+</script>
+
+<!-- <div id="scene-select-container" class="scene-switch">
+    <div class="search-header">
+        <form>
+            <input id="scene-id-input" type="text" placeholder="Paste scene URL or ID" class="search-box">
+            <button id="scene-switch-btn" class="button-primary search-button btn"><label>Change scene</label></button>
+        </form>
+    </div>
+</div> -->
+
+<div id="main">
+    <div class="menu">
+        <h1>Apartment Configurator</h1>
+        
+        <form class="search-header">
+            <input id="scene-id-input" type="text" placeholder="Paste scene URL or ID" class="search-box">
+            <button id="scene-switch-btn" class="button-primary search-button btn"><label>Change scene</label></button>
+        </form>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Interior Walls</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="interior_wall">
+                    <div class="option" id="plaster_smooth">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/1c6397e5715169b6b024c8645cf2efdc.lo-res.jpg">
+                        <p class="option-label">Smooth Plaster</p>
+                    </div>
+                    <div class="option" id="cabinet_wood_fir_wall">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/e0ad17dc344e514eb91d98b365d4e1c0.lo-res.jpg">
+                        <p class="option-label">Fir</p>
+                    </div>
+                    <div class="option" id="bricks_white">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/7c5134a614d03c79d008c5c1a7cf5f54.lo-res.jpg">
+                        <p class="option-label">White Bricks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Bathroom Walls</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="bathroom_wall">
+                    <div class="option" id="tiles_large_rect_white">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/d8572227e2a76395a528e0462cf5b895.lo-res.jpg">
+                        <p class="option-label">White Tiles</p>
+                    </div>
+                    <div class="option" id="tiles_mosaic_green">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/cf01041b30b308d8c1d5797490eefb3d.lo-res.jpg">
+                        <p class="option-label">Green Mosaic Tiles</p>
+                    </div>
+                    <div class="option" id="default_plaster_001">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/278b6dee7782d3ca882d8dd8b0dcd85c.lo-res.jpg">
+                        <p class="option-label">Roguh Plaster</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Exterior Walls</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="exterior_wall">
+                    <div class="option" id="default_plaster_001">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/278b6dee7782d3ca882d8dd8b0dcd85c.lo-res.jpg">
+                        <p class="option-label">Plaster</p>
+                    </div>
+                    <div class="option" id="bricks_clean_red">
+                        <img class="option-image" src="http://storage.3d.io/535e624259ee6b0200000484/textures/uploads/d399b0bf607e60e545c0ceb060b7982c.lo-res.jpg">
+                        <p class="option-label">Clean Red Bricks</p>
+                    </div>
+                    <div class="option" id="concrete_board">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/fea909bb96aa0fcea514647d97875be5.lo-res.jpg">
+                        <p class="option-label">Concrete Boards</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Floors</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="floor">
+                    <div class="option" id="wood_parquet_oak">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/c659ad823689f7502699105e6b8974f1.lo-res.jpg">
+                        <p class="option-label">Oak Parquet</p>
+                    </div>
+                    <div class="option" id="wood_parquet_oak_dark">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/c659ad823689f7502699105e6b8974f1.lo-res.jpg">
+                        <p class="option-label">Dark Oak Parquet</p>
+                    </div>
+                    <div class="option" id="floor_concrete_001">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/3fdde165b96f531f1f4ff81ccd7b38c4.lo-res.jpg">
+                        <p class="option-label">Concrete</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Bathroom Floor</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="bathroom_floor">
+                    <div class="option" id="floor_tiles_001">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/2d6e29a6701b30f14a9fd4ff5611821c.lo-res.jpg">
+                        <p class="option-label">Slate Tiles</p>
+                    </div>
+                    <div class="option" id="tiles-dark-large">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/8aa2417d8bc9c6bb1d80db87bc409c9f.lo-res.jpg">
+                        <p class="option-label">Anthrazit Tiles</p>
+                    </div>
+                    <div class="option" id="tiles-white-large">
+                        <img class="option-image" src="http://storage.3d.io/archilogic/tex/0b4ecca17b840beb219e32bceb21ffc3.lo-res.jpg">
+                        <p class="option-label">White Tiles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Kitchen Style</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="kitchen">
+                    <div class="option" id="cabinet_cherry_veneer">
+                        <img class="option-image" src="http://storage.3d.io/535e624259ee6b0200000484/textures/uploads/7239eb736d6877a34e8ebe2e5e9c8a57.lo-res.jpg">
+                        <p class="option-label">Cherry Veneer Wood</p>
+                    </div>
+                    <div class="option" id="cabinet_paint_black">
+                        <img class="option-image" src="assets/black.png">
+                        <p class="option-label">Black Paint</p>
+                    </div>
+                    <div class="option" id="cabinet_paint_white">
+                        <img class="option-image" src="assets/white.png">
+                        <p class="option-label">White Paint </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle"></div>
+            <div class="dropdown-label">Furniture Style</div>
+            <div class="dropdown-content">
+                <div class="image-group" id="furniture_style">
+                    <div class="option" id="nordic">
+                        <img class="option-image" src="assets/style_nordic.jpg">
+                        <p class="option-label">Nordic</p>
+                    </div>
+                    <div class="option" id="minimal">
+                        <img class="option-image" src="assets/style_minimal.jpg">
+                        <p class="option-label">Minimal</p>
+                    </div>
+                    <div class="option" id="urban">
+                        <img class="option-image" src="assets/style_urban.jpg">
+                        <p class="option-label">Urban</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a-scene id="scene" vr-mode-ui="enabled:true" shadow="type: pcfsoft" embedded>
+        <a-entity visible="true" id="spot"> 
+        <a-entity id="scene-content">
+            <a-entity light="type:directional; castShadow:true; color: #fa5; intensity: 0.8; target: #lighttarget; shadowMapHeight:2048; shadowMapWidth:2048; shadowCameraVisible: false; shadowCameraLeft: -20; shadowCameraRight: 20; shadowCameraTop: 20; shadowCameraBottom: -20; shadowCameraFar: 500;"
+                  position="5 10 0" 
+                  rotation="0 0 0"></a-entity> 
+            <a-entity light="type:hemisphere; groundColor: #fff; color: #fff; intensity:0.7" 
+                      position="3 0 -3"></a-entity>
+                      <a-entity id="lighttarget" position="0 0 0"></a-entity> 
+           </a-entity> 
+        </a-entity>
+        
+        <!-- Camera -->
+        <a-entity id="camera" camera="fov:60; zoom: 1; near: 1" position="5 5 5" rotation="-60 45 0"  wasd-controls="acceleration:8;easing:5;">
+        </a-entity>
+
+        <div id="menu_toggle" class="menu-toggle-open"></div>
+
+        <div id="control-buttons">
+            <div id="control-wall-opacity" class="control-button"></div>
+            <div id="control-perspective" class="control-button"></div>
+            <div id="control-rotate" class="control-button"></div>
+        </div>
+    </a-scene>
+</div>
+
+
+<script src="build/main.bundle.js"></script>
+</body>
+</html>

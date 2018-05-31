@@ -1,0 +1,23 @@
+env:
+  browser: true
+  commonjs: true
+extends: 'eslint:recommended'
+parser: babel-eslint
+parserOptions:
+  ecmaVersion: 7
+  sourceType: module
+rules:
+  indent:
+    - error
+    - 4
+    - MemberExpression: 0
+  linebreak-style:
+    - error
+    - unix
+  quotes: 0
+  globals:
+    io3d: true
+  semi:
+    - error
+    - always
+  no-console: 0
